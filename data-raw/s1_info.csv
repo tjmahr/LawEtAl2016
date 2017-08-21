@@ -1,0 +1,111 @@
+ParticipantID,AAE,WaitForFixation,female,total household income,medu,age_1,EVT_raw,EVT_standard,EVT_GSV,age_2,PPVT_raw,PPVT_standard,PPVT_GSV,age_3,GFTA_raw,GFTA_standard,MP_Missing_200-2000ms,RWL_Missing_200-2000ms,keeper
+001C,0,0,1,"$61,000 to $100,000",Graduate degree (Masters or professional),45,90,149,156,49,114,138,151,45,,,0.348,0.339,
+002C,0,0,0,"$100,000 to $200,000",4 year college degree,36,50,123,127,39,85,131,131,37,,,0.31,NA,
+003C,0,0,0,,,56,78,120,130,,,,135,,,,0.352,0.639/0.888,no
+004C,0,0,0,"$100,000 to $200,000",Graduate degree (Masters or professional),36,50,123,127,39,69,119,120,37,,,0.151,0.231,AUC
+005C,0,0,0,"$61,000 to $100,000",Some College,46,62,117,137,47,107,136,146,47,,,0.039,0.111,AUC
+006C,0,0,0,"Less than $20,000",4 year college degree,46,71,127,143,46,97,128,139,49,,,0.425,0.303,
+007C,0,0,0,"$61,000 to $100,000",Graduate degree (Masters or professional),45,63,123,138,46,87,121,133,47,,,0.178,0.241,
+008C,0,0,0,"$61,000 to $100,000",Graduate degree (Masters or professional),33,63,146,138,33,68,129,119,33,,,0.003,0.236,
+009C,0,,,,,,,,,,,,,,,,,,no
+010C,0,0,0,"$41,000 to $60,000",Graduate degree (Masters or professional),35,47,123,124,37,113,155,150,37,,,0.136,0.044,
+011C,0,0,1,"$61,000 to $100,000",Graduate degree (Masters or professional),33,66,149,140,35,90,143,135,35,,,NA,0.531,no
+012C,0,1,0,"$100,000 to $200,000",4 year college degree,31,43,128,121,32,86,143,132,32,,,,,
+013C,0,0,1,Prefer not to answer,Graduate degree (Masters or professional),30,44,129,123,30,65,130,117,30,,,0.171,0.252,
+014C,0,0,0,"More than $200,000",4 year college degree,34,38,113,117,35,51,109,105,35,,,0.131,0.328,
+015C,0,0,1,"$41,000 to $60,000",Graduate degree (Masters or professional),46,70,127,143,48,111,136,149,48,,,0.57,0.311,FIFTY
+016C,0,0,1,Prefer not to answer,Graduate degree (Masters or professional),35,52,129,129,39,69,119,120,39,,,0.092,0.355,
+017C,0,0,,,,,,,,,,,,,,,,,no
+018C,0,0,,,,,,,,,,,,,,,,,no
+019C,0,0,1,"$100,000 to $200,000",Graduate degree (Masters or professional),30,41,125,119,31,93,151,137,32,,,0.174,0.054,
+020C,0,0,0,"$61,000 to $100,000",4 year college degree,30,41,125,119,34,50,108,104,34,,,0.193,0.226,
+021C,0,0,1,"$100,000 to $200,000",Graduate degree (Masters or professional),44,77,137,148,45,92,127,136,45,,,0.085,0.067,
+022C,0,0,0,"More than $200,000",Graduate degree (Masters or professional),42,55,116,131,42,95,132,138,43,,,0.056,0.095,
+023C,0,0,1,"$61,000 to $100,000",4 year college degree,37,51,124,128,39,87,134,133,39,,,0.58,0.41,FIFTY
+024C,0,0,,,,,,,,,,,,,,,,,no
+025C,0,0,0,"$41,000 to $60,000",4 year college degree,30,57,146,133,31,75,137,124,31,,,0.303,0.428,
+026C,0,0,0,"$20,000 to $40,000",4 year college degree,35,41,116,119,36,67,120,118,36,,,0.27,0.153,
+027C,0,0,0,"$100,000 to $200,000",Graduate degree (Masters or professional),44,62,121,137,47,94,126,137,47,,,0.086,0.199,
+028C,0,0,1,"$100,000 to $200,000",4 year college degree,35,28,97,108,,NA,NA,NA,,,,0.195,0.454,no
+029C,0,0,0,"$41,000 to $60,000",Graduate degree (Masters or professional),44,86,146,154,46,128,152,161,46,,,0.596,0.476,FIFTY
+030C,0,0,1,"$61,000 to $100,000",Graduate degree (Masters or professional),31,44,129,122,33,69,130,120,33,,,0.248,0.236,
+031C,0,0,1,"$61,000 to $100,000",Graduate degree (Masters or professional),35,33,106,112,38,41,96,97,38,,,0.279,0.088,
+032C,0,0,1,"$61,000 to $100,000",4 year college degree,35,63,141,138,36,100,146,142,36,,,0.186,0.11,
+033C,0,0,1,"$100,000 to $200,000",Graduate degree (Masters or professional),32,66,149,140,34,113,159,150,34,,,0.031,0.431,
+034C,0,0,1,"$41,000 to $60,000",4 year college degree,34,47,123,124,35,75,130,124,35,,,0.063,0.091,AUC
+035C,0,0,1,"More than $200,000",Graduate degree (Masters or professional),46,68,123,141,46,102,132,143,46,,,0.067,0.289,
+036C,0,0,1,"$61,000 to $100,000",4 year college degree,38,64,133,138,39,92,137,136,39,,,0.158,0.182,
+037C,0,0,0,"$61,000 to $100,000",Graduate degree (Masters or professional),41,51,116,128,43,84,124,131,43,,,0.472,0.596,FIFTY
+038C,0,0,1,"$100,000 to $200,000",4 year college degree,42,49,109,126,,NA,NA,NA,,,,,,no
+039C,0,0,1,Prefer not to answer,4 year college degree,43,66,129,140,43,116,147,153,43,,,0.038,0.117,
+040C,0,0,1,"$61,000 to $100,000",4 year college degree,38,59,128,134,40,89,131,134,40,,,0.095,0.275,
+041C,0,0,1,"$61,000 to $100,000",4 year college degree,36,68,141,141,38,89,135,134,38,,,0.395,0.288,
+042C,0,0,1,"$100,000 to $200,000",Graduate degree (Masters or professional),32,59,141,134,32,65,126,117,32,,,0.16,0.046,
+043C,0,1,1,"More than $200,000",Graduate degree (Masters or professional),32,39,120,118,33,51,112,105,33,,,,,
+044C,0,0,1,,,,,,,,,,,,,,,,no
+045C,0,0,1,"$20,000 to $40,000",Graduate degree (Masters or professional),,,,NA,36,36,95,92,,,,0.138,0.142,no
+046C,0,1,1,"$20,000 to $40,000",4 year college degree,42,59,120,118,42,70,112,98,,,,0.103,0.163,
+047C,0,1,1,"$100,000 to $200,000",Graduate degree (Masters or professional),46,72,128,144,47,72,110,122,47,,,,,
+048C,0,1,1,"$61,000 to $100,000",4 year college degree,37,51,124,128,38,55,107,109,38,,,,,
+049C,0,1,1,"$100,000 to $200,000",Graduate degree (Masters or professional),46,55,109,131,46,94,126,137,46,,,,,
+050C,0,1,1,"$100,000 to $200,000",Graduate degree (Masters or professional),46,48,100,125,46,76,113,125,46,,,,,
+051C,0,1,0,"$61,000 to $100,000",Graduate degree (Masters or professional),46,58,113,134,46,118,144,154,46,,,,,
+052C,0,1,1,"$61,000 to $100,000",Graduate degree (Masters or professional),47,84,140,152,47,108,137,147,47,,,,,
+053C,0,1,0,"More than $200,000",Graduate degree (Masters or professional),44,61,120,136,45,87,124,133,,,,,,
+054C,1,1,0,"$20,000 to $40,000",high school diploma,34,8,79,81,34,21,84,77,34,,,,,no
+055C,0,1,1,"More than $200,000",Graduate degree (Masters or professional),44,73,133,145,44,83,121,130,44,,,,,
+056C,1,1,0,"Less than $20,000",high school diploma,34,32,104,111,NA,NA,NA,NA,,,,,,
+057C,1,1,0,"$20,000 to $40,000",Some College,36,22,93,102,36,39,97,95,,,,,,no
+058C,,,,,,,,,,,,,,,,,,,no
+059C,0,1,1,"More than $200,000",4 year college degree,41,53,117,129,42,69,112,120,42,,,,,no
+060C,0,1,1,"$61,000 to $100,000",technical/associates degree,40,59,124,134,40,96,136,139,40,,,,,no
+061C,0,1,0,"$41,000 to $60,000",Graduate degree (Masters or professional),39,39,,119,39,59,110,112,39,,,,,
+062C,,,,,,,,,,,,,,,,,,,no
+063C,0,1,0,"More than $200,000",Graduate degree (Masters or professional),40,51,116,128,41,64,111,116,,,,0.194,0.162,
+064C,0,1,0,"$61,000 to $100,000",Graduate degree (Masters or professional),43,61,123,134,44,73,113,114,,,,0.149,0.101,
+065C,0,1,1,"$100,000 to $200,000",Graduate degree (Masters or professional),36,50,123,127,36,65,119,117,36,,,,,
+066C,0,1,1,"$100,000 to $200,000",4 year college degree,32,51,132,128,33,90,146,135,33,,,,,
+067C,0,1,0,"$61,000 to $100,000",Graduate degree (Masters or professional),42,63,126,138,42,98,134,140,42,,,,,
+068C,0,1,0,"$41,000 to $60,000",Trade School,41,27,92,107,42,45,94,100,42,,,,,
+069C,0,1,0,"$100,000 to $200,000",4 year college degree,35,52,129,129,36,64,118,116,36,,,,,no
+070C,0,1,1,"$100,000 to $200,000",Graduate degree (Masters or professional),38,65,134,139,39,63,113,115,39,,,,,
+071C,0,1,0,"$100,000 to $200,000",Graduate degree (Masters or professional),38,59,128,134,39,59,110,112,39,,,,,
+072C,,,0,"$100,000 to $200,000",Graduate degree (Masters or professional),32,21,96,101,33,24,90,80,33,,,,,no
+073C,,1,1,"$100,000 to $200,000",Graduate degree (Masters or professional),40,52,117,129,40,61,108,113,40,,,,,
+074C,,1,0,"$100,000 to $200,000",Graduate degree (Masters or professional),37,43,113,121,38,56,107,109,38,,,,,
+075C,,,0,,,,,,,,,,,,,,,,no
+076C,0,1,0,"$41,000 to $60,000",high school diploma,43,47,106,119,43,58,104,103,,,,0.145,0.277,
+077C,0,1,0,"$61,000 to $100,000",Some College,36,54,126,130,37,71,124,121,,,,,,
+078C,0,1,0,"$100,000 to $200,000",Graduate degree (Masters or professional),37,71,144,143,38,92,137,136,38,,,,,
+079C,0,1,0,"$61,000 to $100,000",Graduate degree (Masters or professional),44,77,137,148,44,105,137,145,44,,,,,
+080C,1,0,1,"Less than $20,000",Some College,45,13,73,90,45,26,74,82,46,,,0.094,0.212,
+081C,1,0,0,"$41,000 - $60,000",Some College,40,54,119,130,40,54,104,108,,,,0.134,0.149,
+082C,0,1,0,"$41,000 to $60,000",Graduate degree (Masters or professional),47,90,146,156,47,107,136,146,47,,,,,
+083C,1,0,1,"$20,000 - $40,000",College degree,44,50,106,127,45,59,101,111,,,,0.138,0.316,
+084C,0,1,1,"$61,000 to $100,000",Graduate degree (Masters or professional),40,53,117,129,,NA,NA,NA,,,,,,
+085C,1,1,0,,,58,78,117,148,,NA,NA,NA,,,,0.149,0.27,
+086C,1,0,1,"Less than $20,000",Some College,58,43,83,121,58,73,96,123,58,,,0.015,0.117,
+087C,1,0,1,"$20,000 to $40,000",Some College,52,54,99,130,52,60,92,113,,,,0.099,0.139,
+088C,1,1,0,"Less than $20,000",GED,39,47,113,124,,,,NA,,,,0.187,0.267,
+089C,1,0,1,"Less than $20,000",GED,50,44,92,122,,,,NA,,,,0.122,0.188,
+090C,1,0,1,"$61,000 - $100,000",Graduate degree,37,60,133,135,37,87,137,133,,,,0.012,0.049,
+091C,1,0,0,,,40,,,NA,,,,NA,,,,,,
+092C,0,1,0,"$61,000 to $100,000",College degree,48,70,123,143,48,94,122,137,,,,,,
+093C,0,0,1,,,,,,NA,,,,NA,,,,,,
+094C,0,1,1,"More than $200,000",Graduate degree (Masters or professional),39,64,133,138,40,90,132,135,,,,0.11,0.116,
+095C,1,0,1,,,55,,NA,NA,,NA,NA,NA,,,,,,
+096C,,,,,,,,NA,NA,,NA,NA,NA,,,,,,
+097C,0,0,0,"$61,000 - $100,000",Graduate degree,41,65,130,139,42,100,136,142,,,,0.253,0.334,
+098C,,,,,,,,,NA,,,,NA,,,,,,
+099C,0,0,1,,,40,51,116,128,41,70,116,120,,,,0.138,0.175,
+100C,,,,,,,NA,NA,NA,,NA,NA,NA,,,,,,
+101C,,,,,,,NA,NA,NA,,NA,NA,NA,,,,,,
+102C,,,,,,,NA,NA,NA,,NA,NA,NA,,,,,,
+103C,,,,,,,NA,NA,NA,,NA,NA,NA,,,,,,
+104C,,,,"$101,000 - $200,000",College degree,44,52,109,129,44,68,109,119,,,,0.133,0.102,
+105C,0,0,0,"$101,000 - $200,000",,36,53,125,129,36,65,119,117,,,,0.203,0.302,no
+106C,0,0,1,"More than $200,000",Graduate degree,57,92,134,157,57,120,132,155,,,,0.077,0.131,
+107C,0,0,1,"$100,000 to $200,000",4 year college degree,52,86,135,154,,,,NA,,,,0.233,0.455,
+108C,0,0,1,"$20,000 to $40,000",Graduate degree (Masters or professional),51,63,113,138,51,109,132,148,,,,0.053,0.138,
+109C,0,0,1,"$20,000 to $40,000",Graduate degree (Masters or professional),35,37,111,116,35,58,116,111,,,,0.18,0.079,
+110C,0,0,0,"$61,000 - $100,000",College degree,37,61,134,136,37,70,123,120,,,,0.072,0.158,

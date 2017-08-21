@@ -1,0 +1,61 @@
+"Participant_ID","AAE","female","householdIncome","medu","pcedu","Age","EVT_Raw","EVT_Standard","EVT_GSV","PPVT_Raw","PPVT_Standard","PPVT_GSV"
+"401D",1,0,"Below $20,000","Some college","Some college",59,54,93,130,NA,NA,NA
+"402D",1,0,"Below $20,000","High School diploma","High School diploma",44,42,98,135,73,108,123
+"404D",1,0,"$20,000 - $40,000","NA","Some College, Trade School, Tech/Assoc Degree",47,51,104,128,62,100,114
+"406D",1,1,"Below $20,000","GED","GED",40,17,83,96,NA,NA,NA
+"407D",1,1,"Below $20,000","Less than high school","GED",47,40,94,118,47,89,102
+"408D",1,0,"$20,000 - $40,000","High School diploma","High School diploma",53,37,84,116,44,79,99
+"409D",1,0,"Below $20,000","NA","Less than high school",54,35,80,114,NA,NA,NA
+"410D",1,0,"Below $20,000","Some college","NA",47,45,98,123,NA,NA,NA
+"412D",1,1,"Below $20,000","College degree","Some college",39,36,101,115,53,103,107
+"413D",1,0,NA,NA,NA,50,44,92,122,62,95,114
+"415D",1,0,"Below $20,000","Less than high school","Less than high school",44,58,117,134,53,97,107
+"416D",1,0,"Below $20,000","Less than high school","Less than high school",46,46,99,124,NA,NA,NA
+"417D",1,1,"Below $20,000","Less than high school","Less than high school",56,55,97,131,NA,NA,NA
+"419D",1,0,"$61,000 - $100,000","Graduate degree","Graduate degree",53,68,115,141,81,106,128
+"421D",1,1,"Below $20,000","Less than high school","High School diploma",46,32,87,111,38,78,94
+"422D",0,1,"$101,000 - $200,000","College degree","NA",51,58,107,134,78,108,125
+"423D",0,0,"More than $200,000","College degree","NA",49,58,110,134,71,105,121
+"424D",0,0,"$20,000 - $40,000","College degree","NA",52,57,103,133,83,110,130
+"425D",0,0,"$61,000 - $100,000","Graduate degree","NA",49,66,119,140,81,113,128
+"427D",0,0,"$101,000 - $200,000","College degree","NA",53,89,144,155,119,145,155
+"428D",1,0,"$41,000 - $60,000","Technical/Associate's degree","NA",52,68,100,141,79,93,127
+"429D",1,1,"$20,000 - $40,000","College degree","College degree",57,54,93,130,80,103,128
+"430D",0,1,"$101,000 - $200,000","Graduate degree","NA",54,96,140,160,132,144,164
+"432D",0,0,"$41,000 - $60,000","Graduate degree","NA",44,76,136,147,117,145,153
+"433D",0,1,"$41,000 - $60,000","Technical/Associate's degree","Technical/Associate's degree",43,75,137,146,118,148,154
+"434D",0,0,"$101,000 - $200,000","Graduate degree","NA",53,64,110,138,90,113,135
+"438D",1,1,"Below $20,000","GED","GED",60,65,101,139,85,102,131
+"439D",0,0,"$101,000 - $200,000","Graduate degree","Graduate degree",51,81,131,150,122,142,157
+"440D",0,0,"NA","NA","College degree",56,61,103,136,108,123,147
+"441D",0,1,"$101,000 - $200,000","College degree","NA",57,83,127,152,106,122,146
+"442D",0,0,"$61,000 - $100,000","College degree","College degree",60,87,145,154,113,121,150
+"443D",1,1,"Below $20,000","Some college","Some college",58,59,98,134,89,107,134
+"445D",0,1,"$20,000 - $40,000","Graduate degree","NA",42,67,130,141,77,119,126
+"446D",0,1,"$101,000 - $200,000","Some college","NA",59,68,107,141,88,106,133
+"448D",0,0,"$101,000 - $200,000","Graduate degree","Graduate degree",50,64,113,138,101,126,142
+"449D",0,0,"$61,000 - $100,000","Some college","NA",53,84,132,152,128,143,161
+"451D",0,1,"$41,000 - $60,000","College degree","NA",49,90,143,156,117,138,153
+"013L",1,0,"Below $20,000","GED","NA",32,9,82,83,18,84,73
+"017L",1,0,"Below $20,000","GED","GED",28,17,94,96,27,95,83
+"023L",1,0,"Below $20,000","College degree","College degree",29,11,86,87,28,96,84
+"024L",1,0,"$41,000 - $60,000","Trade school","College degree",31,17,94,96,27,92,83
+"025L",1,1,"Below $20,000","High School diploma","GED",37,25,95,105,25,82,81
+"034L",0,1,"$41,000 - $60,000","NA","NA",38,51,120,128,62,112,114
+"035L",1,1,"Below $20,000","Some college","NA",32,18,91,97,22,88,78
+"036L",1,1,"$20,000 - $40,000","Some college","NA",29,8,81,81,20,88,75
+"040L",0,1,"$61,000 - $100,000","High School diploma","High School diploma",37,77,151,148,94,141,137
+"046L",1,1,"Below $20,000","Some college","Some college",35,30,97,110,28,90,84
+"058L",0,1,"$61,000 - $100,000","Some college","Some college",36,43,113,121,56,110,109
+"063L",0,1,"$41,000 - $60,000","College degree","College degree",35,42,117,120,65,123,117
+"066L",1,1,"Below $20,000","High School diploma","High School diploma",38,16,84,94,23,80,79
+"067L",1,1,"$20,000 - $40,000","High School diploma","High School diploma",37,29,98,109,54,106,108
+"078L",0,1,"$101,000 - $200,000","Graduate degree","NA",36,47,118,124,63,117,115
+"084L",0,0,"$101,000 - $200,000","Graduate degree","NA",29,28,108,107,54,120,108
+"088L",0,0,"$101,000 - $200,000","NA","NA",30,43,128,121,55,121,109
+"092L",0,0,"Below $20,000","High School diploma","NA",37,25,95,105,32,91,88
+"640L",0,1,"$41,000 - $60,000","High School diploma","NA",37,44,115,122,66,119,117
+"642L",0,1,"$20,000 - $40,000","Less than high school","High School diploma",31,21,98,101,36,99,92
+"643L",0,0,"Below $20,000","High School diploma","High School diploma",29,9,83,83,13,79,65
+"652L",0,1,"$61,000 - $100,000","College degree","College degree",30,54,141,130,62,127,114
+"653L",1,1,"Below $20,000","High School diploma","NA",37,31,100,111,NA,NA,NA

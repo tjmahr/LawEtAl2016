@@ -1,0 +1,211 @@
+---
+output:
+  html_document:
+    # Keep tables from filling width of container
+    css: assets/custom.css
+---
+
+# Missing Data Summary
+
+This scripts reports the amount of missing data in each experiment.
+
+```{r  knitr configuration, warning = FALSE, collapse = TRUE}
+# Set working directory to parent folder
+library("knitr")
+opts_knit$set(root.dir = "../")
+opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 6.5,
+  fig.height = 4.5)
+```
+
+
+This paragraph is how Franzo reported missingness in the MP paper:
+
+> After data interpolation, the subjects had approximately 20% missing data within a trial, collapsing across Condition (CP: 20% MP: 22% NW: 21%). Across 816 trials for each Condition (collapsed across participant), 19% of trials had >50% of missing data (CP: 18% MP: 19% NW: 19%). Approximately 8% of trials were completely missing (CP: 7% MP: 9% NW: 9%). There was no correlation between missing data (overall and >50%) and chronological age or expressive vocabulary size.
+
+We will likewise summarize the average percentage of missing data for the
+children, the percentage of trials with more than 50% missing data, and the
+percentage of completely empty trials. We report only the data for participants
+and trials that contribute to the baseline model in each experiment.
+
+## Experiment 1
+
+
+```{r}
+# Preliminaries
+options(stringsAsFactors = FALSE)
+source("utils.R")
+source("FunctionsForRWLAnalysis.R")
+
+library("lookr")
+library("magrittr")
+library("stringr")
+library("dplyr", warn.conflicts = FALSE)
+library("ggplot2")
+library("lme4")
+library("yaml")
+analysis_opts <- yaml.load_file("options.yaml")
+bin_width <- analysis_opts$bin_width
+
+# Basic pipeline for converting from long looking data to binned elogits
+standard_model_pipeline <- . %>%
+  # Count looks to each AOI
+  AggregateLooks(Subj + Time ~ GazeByImageAOI) %>%
+  # Bin the data
+  group_by(Subj) %>%
+  mutate(Bin = AssignBins(Time, bin_width)) %>%
+  # Within each bin, compute empirical logits
+  group_by(Subj, Bin) %>%
+  CalculateColumns %>%
+  include_orthogonal_time(degree = 3)
+
+as_percent <- . %>% round(2) %>% multiply_by(100) %>% paste0("%")
+
+```
+
+First, prepare the data up to the point of model-fitting.
+
+```{r s1 prep}
+s1_looks <- tbl_df(read.csv("data/study1/02_looking_data.csv"))
+s1_infos <- tbl_df(read.csv("data/study1/01_scores.csv")) %>%
+  rename(Subj = ParticipantID) %>%
+  select(-Income, -medu)
+
+s1_binned <- s1_looks %>% standard_model_pipeline
+s1_model_set <- make_model_data(s1_binned, s1_infos)
+
+# Filter raw looking data so it only has data from children used in models
+s1_looks <- s1_looks %>%
+  semi_join(s1_model_set, by = "Subj") %>%
+  select(Subj:GazeByImageAOI)
+looks <- s1_looks
+infos <- s1_infos
+```
+
+Now, determine missing data per trial per subject.
+
+```{r trial level}
+by_trial <- looks %>%
+  AggregateLooks(Subj + Block + TrialNo ~ GazeByImageAOI) %>%
+  tbl_df %>%
+  select(-PhonologicalFoil, -SemanticFoil, -Unrelated, -Proportion) %>%
+  mutate(Frames = Target + Elsewhere + NAs + Others,
+         PropMissing = NAs / Frames,
+         Excessive = .5 <= PropMissing)
+stopifnot(by_trial$Frames == 90)
+by_trial
+
+# Amount of trials with too much missing data by subject
+excessive_per_subj <- by_trial %>%
+  group_by(Subj) %>%
+  summarise(Trials = n(),
+            nExcessive = sum(Excessive),
+            PropExcessive = nExcessive / Trials) %>%
+  select(Subj, PropExcessive)
+excessive_per_subj
+
+# Compute percentages of trials with missing data patterns
+n_trials_excessive <- by_trial %>% filter(Excessive) %>% nrow
+n_trials_lost <- by_trial %>% filter(PropMissing == 1) %>% nrow
+
+n_trials <- nrow(by_trial)
+trials_per_subj <- n_trials / n_distinct(by_trial$Subj)
+trials_per_subj
+
+prop_excessive <- n_trials_excessive / n_trials
+prop_lost <- n_trials_lost / n_trials
+```
+
+Compute subject-level proportions.
+
+```{r subject level}
+# Computer proportion of missing data per subject
+by_subj <- looks %>%
+  AggregateLooks(Subj ~ GazeByImageAOI) %>%
+  tbl_df %>%
+  select(-PhonologicalFoil, -SemanticFoil, -Unrelated, -Proportion) %>%
+  mutate(Frames = Target + Elsewhere + NAs + Others,
+         PropMissing = NAs / Frames) %>%
+  select(Subj, PropMissing)
+by_subj
+
+hist(by_subj$PropMissing)
+summary(by_subj)
+mean_prop <- mean(by_subj$PropMissing)
+```
+
+Check the correlations.
+
+```{r linear models}
+missingness <- by_subj %>%
+  left_join(excessive_per_subj) %>%
+  inner_join(infos)
+
+summary(lm(PropMissing ~ EVT_GSV, missingness))
+summary(lm(PropMissing ~ Age, missingness))
+
+summary(lm(PropExcessive ~ EVT_GSV, missingness))
+summary(lm(PropExcessive ~ Age, missingness))
+```
+
+### Report
+
+After data interpolation, the participants had approximately 
+`r as_percent(mean_prop)` missing data within a trial. Across 
+`r prettyNum(n_trials, big.mark = ",")` trials (collapsed across child), 
+`r as_percent(prop_excessive)` of trials had >50% of missing data. 
+Approximately `r as_percent(prop_lost)` of trials were completely missing. 
+Missing data percentages (overall and >50%) did not correlate with age or 
+expressive vocabulary size.
+
+
+## Experiment 2
+
+Now we just update the `looks` object to the Experiment 2 data-set and re-run 
+the above code blocks.
+
+```{r}
+mean_prop_s1 <- mean_prop
+# The modeled data is already saved, so we load that.
+s2_infos <- tbl_df(read.csv("data/study2/e2_a1.csv")) %>% 
+  select(Subj, EVT_GSV, Age) %>% 
+  distinct
+
+# Keep just trials from kids in the modeled data-set 
+s2_looks <- tbl_df(read.csv("data/study2/02_looking_data_single.csv")) %>% 
+  semi_join(s2_infos, by = "Subj") %>%
+  select(Subj:GazeByImageAOI)
+
+looks <- s2_looks
+infos <- s2_infos
+```
+
+Determine missing data per trial per subject.
+
+```{r, ref.label="trial level"}
+```
+
+Compute subject-level proportions.
+
+```{r, ref.label="subject level"}
+```
+
+Check the correlations.
+
+```{r, ref.label="linear models"}
+```
+
+### Report
+
+The gaze-contingent stimulus presentation substantially reduced the amount of
+missing data in Experiment 2. After data interpolation, the participants had
+approximately `r as_percent(mean_prop)` missing data within a trial (compared 
+to `r as_percent(mean_prop_s1)` in Experiment 1). Across 
+`r prettyNum(n_trials, big.mark = ",")` trials (collapsed across child), 
+`r as_percent(prop_excessive)` of trials had >50% of missing data. 
+Approximately `r as_percent(prop_lost)` of trials were completely missing. 
+As in Experiment 1, missing data percentages (overall and >50%) did not 
+correlate with age or expressive vocabulary size.

@@ -1,0 +1,50 @@
+---
+# Number of frames to bin together
+bin_width: 3
+
+# Threshold for excessive missing data
+excessive_na: 0.5
+
+# Maximum time for the logistic regression models (when the two curves are
+# observed to have converged).
+convergence:
+  s1:
+    phono: 1050
+    semy: 1750
+  s2:
+    phono: 1200
+    semy: 1750
+
+targets_s1:
+  # Targets with good phonological foils
+  phono: ["bear", "bee", "bell", "belt", "bowl", "box", "crab", "dress",
+          "drum", "flag", "fly", "gift", "goat", "heart", "horse", "pan",
+          "pear", "pen", "sheep", "shirt", "vase"]
+  # Targets with good semantic foils
+  semantic: ["bear", "bee", "bell", "bowl", "bread", "cheese", "dress", "drum",
+             "fly", "goat", "horse", "pan", "pear", "sheep", "shirt", "spoon"]
+
+targets_s2:
+  # Targets with good phonological foils in study 2
+  phono: ["bear", "bee", "bell", "dress", "drum", "flag", "fly", "heart",
+          "horse", "pan", "pear", "pen", "vase"]
+  # Targets with good semantic foils in study 2
+  semantic: ["bear", "bee", "bell", "bread", "cheese", "dress", "drum", "fly",
+             "horse", "pan", "pear", "shirt", "spoon"]
+
+# Offset by 5 so that [45, 245] will catch all times t where 50 <= t < 250
+windows:
+  # during which we calculate bias
+  bias: [0, 245]
+  # during which we calculate proportion of missing data
+  prop_na: [0, 1745]
+  # during which we model the fixations
+  models: [245, 1745]
+
+s1:
+  excluded_ids:
+    # Drop second visit by 003 bc first visit would have constituted practice.
+    - "003C56MS1"
+    # Drop visit by 108 bc blocks didn't have same number of trials as others.
+    - "108C51FS1"
+...

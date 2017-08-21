@@ -1,0 +1,229 @@
+---
+output:
+  html_document:
+    css:
+    - assets/custom.css
+  word_document:
+  - default
+---
+
+# Tables
+
+This script generates tables for use in the manuscript.
+
+
+```{r knitr configuration, warning = FALSE, echo = FALSE}
+# Set working directory to parent folder
+library("knitr")
+opts_knit$set(root.dir = "../")
+opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 6.5,
+  fig.height = 4.5)
+```
+
+
+
+```{r, warning = FALSE, message = FALSE}
+### Libraries and data-cleaning helpers
+library("stringr")
+library("tidyr")
+library("dplyr")
+library("magrittr")
+options(stringsAsFactors = FALSE, digits = 4)
+
+n_missing <- . %>% is.na %>% sum
+
+# Clean up medu values, abbreviate
+normalize_medu <- function(xs) {
+  xs <- ifelse(xs == "4 year college degree", "College", xs)
+  xs <- ifelse(xs == "", "Declined", xs)
+  substr(xs, 1, 4)
+}
+
+# First pass at cleaning data
+normalize_values <- . %>% 
+  mutate(
+    # Don't numerically code variables
+    AAE = ifelse(AAE, "AAE", "MAE"),
+    Sex = ifelse(female, "F", "M"),
+    # Abbreviate medu to 3-4 characters
+    medu = normalize_medu(medu))
+
+# how many scores are missing (for footnotes)
+count_missings <- . %>% group_by(medu_lmh) %>% 
+  summarise(
+    evts_raw_missing = n_missing(EVT_Raw),
+    evts_std_missing = n_missing(EVT_Standard),
+    ppvts_raw_missing = n_missing(PPVT_Raw),
+    ppvts_std_missing = n_missing(PPVT_Standard))
+
+# Look-up list for abbreviated medu values
+medu_codes <- c(
+  Less = "low", 
+  GED  = "low",
+  High = "low",
+  Some = "mid",
+  Tech = "mid",
+  Trad = "mid",
+  # Use "top" so alphabetical order matches lmh order 
+  Coll = "top",
+  Grad = "top",
+  Decl = "decl")
+```
+
+
+```{r}
+### Functions for formatting/display
+
+parenthesize <- . %>% sprintf("(%s)", .)
+
+capitalize <- function(xs) {
+  substr(xs, 1, 1) <- xs %>% substr(1, 1) %>% toupper
+  xs
+}
+
+# mean (sd)
+mean_sd <- function(xs) { 
+  avg <- xs %>% mean(na.rm = TRUE) %>% round(2)
+  sds <- xs %>% sd(na.rm = TRUE) %>% round(2)
+  paste(avg, parenthesize(sds))
+}
+
+# n. AAE / n. SAE
+report_dialect <- function(xs) {
+  AAEs <- sum(xs == "AAE")
+  SAEs <- sum(xs == "MAE")
+  paste0(AAEs, "/", SAEs)
+}
+
+# n. total (n. boys)
+report_n_w_boys <- function(xs) {
+  n <- length(xs)
+  boys <- sum(xs == 0)
+  paste(n, parenthesize(boys))
+}
+
+# replace "top" with "high"
+top_to_high <- . %>% str_replace("top", "high") %>% 
+  str_replace("mid", "middle") %>% 
+  str_replace("decl", "declined")
+
+
+count_medus <- function(xs) {
+  breakdown <- xs %>% table %>% as.list
+  names(breakdown) <- names(breakdown) %>% top_to_high
+  breakdown
+}
+
+# Create equations
+list_to_eq <- . %>% sprintf("%s&nbsp;=&nbsp;%s", names(.), .)
+
+```
+
+
+```{r}
+### Load data
+
+d1 <- read.csv("data/study1/01_test_scores.csv") %>% as.tbl %>% normalize_values 
+d2 <- read.csv("data/raw/scores/s2_matches.csv") %>% as.tbl %>% normalize_values
+
+# Recode medu values into three levels
+d1$medu_lmh <- medu_codes[d1$medu]
+d2$medu_lmh <- medu_codes[d2$medu]
+
+# Clean up col names from study one
+names(d1) <- names(d1) %>% str_replace("_raw", "_Raw") %>% 
+  str_replace("_standard", "_Standard")
+```
+
+## Table 1
+
+```{r, results = 'asis'}
+table_1 <- d1 %>% 
+  summarise(
+    n = report_n_w_boys(female),
+    ages = mean_sd(Age),
+    evt = mean_sd(EVT_Standard),
+    ppvt = mean_sd(PPVT_Standard))
+
+table_1$medu <- d1$medu_lmh %>% 
+  count_medus %>% 
+  list_to_eq %>% 
+  paste0(collapse = "; ")
+
+col_names_1 <- c(
+  "N participants (N boys)", 
+  "Mean (SD) age in months", 
+  "Mean (SD) EVT-2 standard score", 
+  "Mean (SD) PPVT-4 standard score^1^",
+  "N at each maternal education level^2^" 
+)
+
+d1_missings <- count_missings(d1) 
+```
+
+Table 1. Demographic information and EVT-2/PPVT-4 standard scores for participants in Experiment 1.
+
+```{r, results = 'asis', echo = FALSE}
+table_1 %>% kable(col.names = col_names_1)
+```
+
+^1^PPVT-4 scores are missing for `r d1_missings[[3, "ppvts_std_missing"]]` child from a high maternal education level family.
+
+^2^Declined = family chose not to provide maternal education level; High = college or graduate degree; Middle = some college, associate’s degree, or technical school degree; Low = high school diploma, GED, or less than high school diploma.
+
+
+
+## Table 2
+
+```{r, results = 'asis'}
+table_2 <- d2 %>% 
+  group_by(medu_lmh) %>% 
+  summarise(
+    n = report_n_w_boys(female),
+    ages = mean_sd(Age),
+    dialect = report_dialect(AAE),
+    evt = mean_sd(EVT_Standard),
+    ppvt = mean_sd(PPVT_Standard)) %>% 
+  mutate(medu_lmh = medu_lmh %>% top_to_high %>% capitalize)
+
+col_names <- c(
+  "Maternal education level^1^", 
+  "N participants (N boys)", 
+  "Mean (SD) age in months", 
+  "AAE/MAE speakers", 
+  "Mean (SD) EVT-2 standard score", 
+  "Mean (SD) PPVT-4 standard score^2^"
+)
+
+d2_missings <- count_missings(d2) 
+```
+
+Table 2. Demographic information and EVT-2/PPVT-4 standard score for participants in Experiment 2.
+
+```{r, echo = FALSE, results='asis'}
+table_2 %>% kable(col.names = col_names, format = "pandoc")
+```
+
+^1^High = college or graduate degree; Middle = some college, associate’s degree, or technical school degree; Low = high school diploma, GED, or less than high school diploma.
+
+^2^PPVT-4 scores are missing for `r d2_missings[[2, "ppvts_std_missing"]]` children from middle maternal education level families, and `r d2_missings[[1, "ppvts_std_missing"]]` children from low maternal education level families.
+
+
+## Missing scores
+
+### S1
+
+```{r, reslts = 'asis'}
+d1_missings %>% kable
+```
+
+### S2
+
+```{r, results = "asis"}
+d2_missings %>% kable
+```
+

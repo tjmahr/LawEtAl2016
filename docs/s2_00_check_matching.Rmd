@@ -1,0 +1,112 @@
+---
+output:
+  html_document:
+    # Keep tables from filling width of container
+    css: assets/custom.css
+---
+
+# Matching Check
+
+This script replicates the calculations Jan had made in the original `s2_matches.csv` file.
+
+```{r  knitr configuration, warning = FALSE, collapse=TRUE}
+# Set working directory to parent folder
+library("knitr")
+opts_knit$set(root.dir = "../")
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 6.5,
+  fig.height = 4.5)
+```
+
+
+```{r, warning = FALSE, message = FALSE}
+library("stringr")
+library("tidyr")
+library("dplyr")
+library("magrittr")
+options(stringsAsFactors = FALSE, digits = 4)
+
+average <- function(xs) mean(xs, na.rm = TRUE)
+
+d <- read.csv("data/study2/s2_matches.csv") %>% as.tbl %>% 
+  mutate(
+    # Don't numerically code variables
+    AAE = ifelse(AAE, "AAE", "MAE"),
+    Sex = ifelse(female, "F", "M"),
+    # Abbreviate medu to 3-4 characters
+    medu = substr(medu, 1, 4))
+
+# Look-up list for abbreviated medu values
+medu_codes <- c(
+  Less = "low", 
+  GED  = "low",
+  High = "low",
+  Some = "mid",
+  Tech = "mid",
+  Trad = "mid",
+  # Use "top" so alphabetical order matches lmh order 
+  Coll = "top",
+  Grad = "top")
+
+# Recode medu values into three levels
+d$medu_lmh <- medu_codes[d$medu]
+```
+
+## Tallies by dialect
+
+### Maternal education
+
+```{r, results='asis'}
+d %>% count(AAE) %>% kable
+
+d %>% count(medu_lmh) %>% kable
+
+d %>% count(AAE, medu_lmh) %>% spread(AAE, n) %>% kable
+
+d %>% count(AAE, medu_lmh, medu) %>% kable
+```
+
+### Sex
+
+```{r, results='asis'}
+d %>% count(AAE, Sex) %>% spread(AAE, n) %>% kable
+```
+
+
+
+## Missingness
+
+Check for missing values
+```{r, results='asis'}
+scores <- d %>% 
+  select(Participant_ID, AAE, medu_lmh, Age, 
+         ends_with("GSV"), ends_with("Standard")) 
+
+scores %>% 
+  filter(is.na(EVT_GSV) | is.na(PPVT_GSV) | 
+           is.na(EVT_Standard) | is.na(PPVT_Standard)) %>% kable
+```
+
+## Means by dialect
+
+The PPVT scores will be thrown off by the missing PPVT values...
+
+```{r, results='asis'}
+scores %>% group_by(AAE) %>% 
+  summarise_each(funs(average), -Participant_ID, -medu_lmh) %>% 
+  gather(key = Score, value, -AAE) %>% 
+  spread(AAE, value) %>% kable
+
+long_scores <- scores %>% 
+  group_by(AAE, medu_lmh) %>% 
+  summarise_each(funs(average), -Participant_ID) %>% 
+  gather(key = Score, value, -AAE, -medu_lmh)
+
+long_scores %>% spread(medu_lmh, value) %>% kable
+
+long_scores %>% spread(AAE, value) %>% kable
+```
+
+

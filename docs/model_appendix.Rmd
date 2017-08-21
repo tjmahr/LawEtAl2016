@@ -1,0 +1,209 @@
+---
+title: "Model Fits"
+author: "Tristan Mahr"
+date: "April 28, 2015"
+output:
+  html_document:
+    css: assets/custom.css
+  word_document:
+    pandoc_args:
+    - --reference-docx
+    - assets/template.docx
+csl: assets/apa.csl
+bibliography: assets/lme4.bib
+---
+
+```{r  knitr configuration, warning = FALSE, collapse = TRUE}
+# Set working directory to parent folder
+library("knitr")
+opts_knit$set(root.dir = "../")
+opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 6.5,
+  fig.height = 4.5)
+```
+
+```{r}
+library("magrittr")
+library("knitr")
+library("dplyr", warn.conflicts = FALSE)
+library("broom")
+library("lme4")
+library("stringr")
+source("R/utils/pretty_printing.R")
+# Make a data-frame with AIC, BIC, LL, fixed effects dfs
+make_fit_table <- function(model) {
+  fits <- model %>%
+    glance %>%
+    select(-sigma, -deviance, -df.residual) %>%
+    round %>%
+    mutate(dfs = get_dfs(model))
+  fits
+}
+
+# Get the fixed effects degrees of freedom
+get_dfs <- . %>% logLik %>% attr("df")
+```
+
+
+```{r}
+base_dir <- "data/study1/modelling/without_bad_trials/"
+```
+
+
+```{r Experiment 1 models}
+lapply(list.files(base_dir, ".Rdata", full.names = TRUE), load, .GlobalEnv)
+names(e1_a1)
+base_models <- e1_a1 %>% extract(c("gcm_base", "gcm_EVT", "gcm_Age", "gcm_EVTAge"))
+gcm_target <- s1_a2 %>% extract("gcm_target")
+
+phon_head_to_head <- e1_phon_unre %>%
+  extract(c("gcm_Target_v_Phonological", "gcm_Target_v_Unrelated"))
+
+phon_head_to_head_evt <- e1_phon_unre %>%
+  extract(c("gcm_Target_v_Phonological_EVT", "gcm_Target_v_Unrelated_EVT"))
+
+semy_head_to_head <- e1_semy_unre %>%
+  extract(c("gcm_Target_v_Semantic", "gcm_Target_v_Unrelated2"))
+
+semy_head_to_head_evt <- e1_semy_unre %>%
+  extract(c("gcm_Target_v_Semantic_EVT", "gcm_Target_v_Unrelated2_EVT"))
+
+e1_models <- c(base_models, gcm_target, phon_head_to_head, semy_head_to_head, phon_head_to_head_evt, semy_head_to_head_evt)
+
+# Model names go here
+e1_model_names <- c(
+  "Base Model",
+  "Base With EVT",
+  "Base With Age",
+  "Base With Age*EVT",
+  "Target- vs. Distractor-Initial",
+  "(1) Target vs. Phonological",
+  "(1) Target vs. Unrelated",
+  "(2) Target vs. Semantic",
+  "(2) Target vs. Unrelated",
+  "(3) Target vs. Phonological With EVT",
+  "(3) Target vs. Unrelated With EVT",
+  "(4) Target vs. Semantic With EVT",
+  "(4) Target vs. Unrelated With EVT"
+)
+```
+
+
+
+```{r Experiment 2 models, eval=TRUE}
+list.files("data/study2/modelling")
+lapply(list.files("data/study2/modelling", ".Rdata", full.names = TRUE), 
+       load, .GlobalEnv)
+
+s2_base_models <- s2_a1[names(s2_a1) != "data"]
+s2_gcm_target <- s2_a2 %>% extract("gcm_target")
+
+s2_phon_head_to_head <- s2_phon_unre %>%
+  extract(c("gcm_Target_v_Phonological", "gcm_Target_v_Unrelated"))
+
+s2_semy_head_to_head <- s2_semy_unre %>%
+  extract(c("gcm_Target_v_Semantic", "gcm_Target_v_Unrelated2"))
+
+
+s2_phon_head_to_head_evt <- s2_phon_unre %>%
+  extract(c("gcm_Target_v_Phonological_EVT", "gcm_Target_v_Unrelated_EVT"))
+
+names(s2_semy_unre)
+s2_semy_head_to_head_evt <- s2_semy_unre %>%
+  extract(c("gcm_Target_v_Semantic_EVT_no_ranef_cov", "gcm_Target_v_Unrelated2_EVT_no_ranef_cov"))
+
+
+
+s2_models <- c(s2_base_models, s2_gcm_target, s2_phon_head_to_head, s2_semy_head_to_head, s2_phon_head_to_head_evt, s2_semy_head_to_head_evt)
+
+# Model names go here
+s2_model_names <- c(
+  "Dialect Comparison",
+  "Base Model",
+  "Base With EVT",
+  "Base With Age",
+  "Base With Age x EVT",
+  "Base With Age x EVT x Mat. Ed.",
+  "Target- vs. Distractor-Initial",
+  "(1) Target vs. Phonological",
+  "(1) Target vs. Unrelated",
+  "(2) Target vs. Semantic",
+  "(2) Target vs. Unrelated",
+  "(3) Target vs. Phonological With EVT",
+  "(3) Target vs. Unrelated With EVT",
+  "(4) Target vs. Semantic With EVT",
+  "(4) Target vs. Unrelated With EVT"
+)
+
+```
+
+
+
+
+
+
+
+
+
+
+## Appendix B: Model Fits and Formulas
+
+Numerous growth curve analyses were performed on both experiments. Further, the
+fixed-effect and random-effect specifications changed from model to model. The
+`lme4` package's formula syntax provides a succinct way to describe the
+grouping factors used in a mixed-effects model [@Bates2014, pp. 5-6]. The
+following tables summarize the measures of model fit and the `lme4` formulas
+used for the primary growth curve analyses presented in this artcle. All models
+were fit with maximum likelihood. The head-to-head comparison models, indicated
+with paired numbers in the tables, were fit with generalized linear models with
+a logit link function.
+
+
+### Experiment 1
+
+```{r, echo = FALSE}
+models <- e1_models
+model_names <- e1_model_names
+```
+
+```{r Model Fits, echo = FALSE}
+analysis_table <- lapply(models, make_fit_table) %>%
+  bind_rows %>%
+  mutate(Model = model_names) %>%
+  select(Model, dfs, AIC, BIC, logLik) %>%
+  rename(`df (Fixed Effects)` = dfs, `Log-Likelihood` = logLik)
+
+kable(analysis_table, format = "pandoc", caption = "Measures of model fit")
+```
+
+
+```{r Model Formulas, echo = FALSE}
+formulas <- models %>%
+  lapply(get_formula_literal) %>%
+  lapply(rewrite_formula) %>%
+  unlist
+
+data_frame(Model = model_names, `lme4 Formula` = formulas) %>%
+  kable(format = "pandoc", caption = "Model specifications")
+```
+
+### Experiment 2
+
+```{r, echo = FALSE, eval=TRUE}
+models <- s2_models
+model_names <- s2_model_names
+```
+
+```{r, ref.label="Model Fits", echo = FALSE, eval=TRUE}
+
+```
+
+```{r, ref.label="Model Formulas", echo = FALSE, eval=TRUE}
+
+```
+
+
+### References

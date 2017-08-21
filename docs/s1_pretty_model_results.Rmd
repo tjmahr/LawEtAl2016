@@ -1,0 +1,160 @@
+---
+title: "Pretty printed lmer results: Study 1"
+output:
+  html_document:
+    fig_caption: yes
+    # Keep tables from filling width of container
+    css: assets/custom.css
+  word_document: default
+---
+
+```{r setup, include = FALSE}
+# Set working directory to parent folder
+library("knitr")
+opts_knit$set(root.dir = "../")
+opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 6.5,
+  fig.height = 4.5)
+```
+
+
+```{r Preamble}
+# Note: You should have the latest version of RStudio and the packages listed in
+# the code block below.
+library("stringr")
+library("rmarkdown")
+library("magrittr")
+library("lme4")
+library("ggplot2")
+
+source("R/utils.R")
+source("R/utils/pretty_printing.R")
+
+# Load LWL R package if a copy is installed, otherwise load a local copy
+if (!require("lookr")) {
+  sourceDir <- function(path,...) {
+    for (nm in list.files(path, pattern = "\\.[RrSsQq]$")) {
+      cat(nm, ":")
+      source(file.path(path, nm), ...)
+      cat("\n")
+    }
+  }
+  sourceDir("lookr/R")
+}
+library("dplyr", warn.conflicts = FALSE)
+
+options(stringsAsFactors = FALSE)
+
+h4 <- make_tagger("h4")
+cat_h3 <- . %>% h3 %>% cat
+cat_h4 <- . %>% h4 %>% cat
+```
+
+
+```{r}
+pretty_fixed_effects <- function(model, digits = 3) {
+  # Used to round non-p-values, replace hyphens with minus signs
+  format_num <- function(x) round(x, digits) %>% leading_minus_sign
+  fixed_effects <- tidy_fixed_effects(model) %>% 
+    mutate(Parameter = rename_parameters(Parameter), 
+           p = format_pval(p, html = TRUE),
+           Estimate = format_num(Estimate), 
+           SE = format_num(SE)) 
+  
+  # format z column if glmerMod, otherwise format t
+  stat_name <- ifelse(class(model) == "glmerMod", "z", "t")
+  fixed_effects[[stat_name]] <- format_num(fixed_effects[[stat_name]])
+  
+  # italicize special columns
+  names(fixed_effects) <- names(fixed_effects) %>% 
+    str_replace_all("^([tpz])$", "_\\1_")
+  fixed_effects
+}
+
+rename_parameters <- function(xs) {
+    xs <- xs %>%
+      str_replace("Age_1", "Age") %>%
+      str_replace("cAge", "Age") %>%
+      str_replace("cEVT_GSV", "EVT-GSV") %>%
+      str_replace("cPPVT_GSV", "PPVT-GSV") %>%
+      str_replace("ot(\\d)", "Time^\\1^")  %>%
+      str_replace("BiasTarget", "On-Target")  %>%
+      str_replace("biasPhonological", "Phonological")  %>%
+      str_replace("biasSemantic", "Semantic")  %>%
+      str_replace("biasUnrelated", "Unrelated")  %>%
+      # # Uncomment this line to remove ^1^ from Time^1^
+      # str_replace("Time.1.", "Time")  %>%      
+      # Multiple interaction terms
+      str_replace_all(":", " &times; ") %>%
+      str_replace(".Intercept.", "Intercept")
+    xs
+}
+
+insta_table <- function(model) { 
+  model %>% 
+    pretty_fixed_effects(digits = 3) %>% 
+    kable(align = "r", format = "pandoc")
+}
+insta_inlines <- function(model) { 
+  model %>% report_rows %>% paste0("<br/>") %>% cat
+} 
+```
+
+
+## Analysis 1
+
+```{r, results = 'asis'}
+load("data/study1/modelling/without_bad_trials/01_gca_fit_models.Rdata")
+
+model_names <- names(e1_a1) %>% str_subset("gcm")
+for (model in model_names) {
+  cat_h3(model)
+  e1_a1[[model]] %>% insta_table %>% print
+  cat("\n\n")
+  e1_a1[[model]] %>% insta_inlines  
+  cat("\n\n")
+}
+```
+
+## Analysis 2 Recovery from Distractors
+
+```{r, results = 'asis'}
+load("data/study1/modelling/without_bad_trials/02_bias_models.Rdata")
+
+cat_h3("Recovery from Foil vs from Target")
+s1_a2$gcm_target %>% insta_table
+s1_a2$gcm_target %>% insta_inlines
+```
+
+## Analysis 3.1 Target vs Phonological
+
+```{r, results='asis'}
+load("data/study1/modelling/without_bad_trials/03_logistic_phon_models.Rdata")
+
+cat_h3("Not controlling for EVT")
+
+cat_h4("Target vs Phonological Foil")
+e1_phon_unre$gcm_Target_v_Phonological %>% insta_table
+e1_phon_unre$gcm_Target_v_Phonological %>% insta_inlines
+cat("\n\n")
+
+cat_h4("Target vs Unrelated Foil")
+e1_phon_unre$gcm_Target_v_Unrelated %>% insta_table
+e1_phon_unre$gcm_Target_v_Unrelated %>% insta_inlines
+cat("\n\n")
+
+cat_h3("Controlling for EVT")
+
+cat_h4("Target vs Phonological Foil")
+e1_phon_unre$gcm_Target_v_Phonological_EVT %>% insta_table
+e1_phon_unre$gcm_Target_v_Phonological_EVT %>% insta_inlines
+cat("\n\n")
+
+cat_h4("Target vs Unrelated Foil")
+e1_phon_unre$gcm_Target_v_Unrelated_EVT %>% insta_table
+e1_phon_unre$gcm_Target_v_Unrelated_EVT %>% insta_inlines
+cat("\n\n")
+```
